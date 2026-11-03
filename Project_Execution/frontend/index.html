@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Smart Food Waste Analytics
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<div class="sidebar">
+
+    <div
+        class="logo logo-link"
+        onclick="goToDashboard()"
+        role="button"
+        tabindex="0"
+        onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); goToDashboard(); }"
+    >
+
+        <div class="logo-icon">
+            ♻
+        </div>
+
+        <div>
+
+            <h2>
+                Smart Food Waste Analytics
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <button
+            class="nav-item active"
+            data-section="dashboard"
+            onclick="showSection('dashboard', this)"
+        >
+            📊 Dashboard
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('analysis', this)"
+        >
+            🍽️ Food Waste Analysis
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('trends', this)"
+        >
+            📈 Trends & Insights
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('predictions', this)"
+        >
+            🤖 Predictions
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('reports', this)"
+        >
+            📄 Reports
+        </button>
+
+
+        <button
+            class="nav-item"
+            onclick="showSection('daily', this)"
+        >
+            📝 Daily Record
+        </button>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="project-status">
+
+            <span class="status-dot"></span>
+
+            System Online
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="main">
+
+
+<header>
+
+    <div>
+
+        <h1>
+            Smart Food Waste Analytics
+        </h1>
+
+        <p>
+            Data Engineering & AI/ML Intelligence Platform
+        </p>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section
+    id="dashboard"
+    class="section active-section"
+>
+
+
+    <!-- UPLOAD -->
+
+    <div class="upload-card">
+
+        <div class="upload-info">
+
+            <div class="upload-icon">
+                📁
+            </div>
+
+            <div>
+
+                <h2>
+                    Upload Food Waste Dataset
+                </h2>
+
+                <p>
+                    Upload CSV or Excel data for automatic
+                    processing and analysis.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="upload-control">
+
+            <input
+                type="file"
+                id="datasetFile"
+                accept=".csv,.xlsx,.xls"
+            >
+
+            <button
+                onclick="uploadDataset()"
+                class="primary-btn"
+            >
+                Upload Dataset
+            </button>
+
+        </div>
+
+
+        <p
+            id="uploadStatus"
+            class="upload-status"
+        ></p>
+
+    </div>
+
+
+    <!-- DATASET SUMMARY -->
+
+    <div class="dataset-overview">
+
+        <div>
+
+            <span>
+                Records
+            </span>
+
+            <strong id="datasetRows">
+                0
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                Cities
+            </span>
+
+            <strong id="datasetCities">
+                0
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                Food Items
+            </span>
+
+            <strong id="datasetFoods">
+                0
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                Date Range
+            </span>
+
+            <strong id="datasetDateRange">
+                -
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- CITY -->
+
+    <div class="city-selector">
+
+        <label>
+            Select City
+        </label>
+
+        <select
+            id="citySelect"
+            onchange="cityChanged()"
+        >
+
+            <option value="">
+                Select City
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- KPI -->
+
+    <div class="kpi-grid">
+
+
+        <div class="kpi-card">
+
+            <span>
+                Total Waste
+            </span>
+
+            <h2 id="totalWaste">
+                0 kg
+            </h2>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <span>
+                Total Prepared
+            </span>
+
+            <h2 id="totalPrepared">
+                0 kg
+            </h2>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <span>
+                Total Consumed
+            </span>
+
+            <h2 id="totalConsumed">
+                0 kg
+            </h2>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <span>
+                Waste Percentage
+            </span>
+
+            <h2 id="wastePercentage">
+                0%
+            </h2>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <span>
+                Financial Loss
+            </span>
+
+            <h2 id="financialLoss">
+                ₹0
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- EXTRA FEATURES -->
+
+    <div class="feature-grid">
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <span>
+                    Data Quality
+                </span>
+
+                <h2 id="dataQualityScore">
+                    0%
+                </h2>
+
+                <p id="dataQualityDetails">
+                    Checking...
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ⚠️
+            </div>
+
+            <div>
+
+                <span>
+                    Waste Anomalies
+                </span>
+
+                <h2 id="anomalyCount">
+                    0
+                </h2>
+
+                <p>
+                    Unusual observations
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🎯
+            </div>
+
+            <div>
+
+                <span>
+                    Reduction Target
+                </span>
+
+                <h2>
+                    15%
+                </h2>
+
+                <p id="potentialReduction">
+                    Potential reduction
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HIGHEST FOOD -->
+
+    <div class="highest-card">
+
+        <div>
+
+            <span>
+                HIGHEST WASTE FOOD
+            </span>
+
+            <h2 id="highestFood">
+                Select a city
+            </h2>
+
+        </div>
+
+
+        <div>
+
+            <strong id="highestFoodWaste">
+                0 kg
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- CHARTS -->
+
+    <div class="chart-grid">
+
+
+        <div class="chart-card">
+
+            <h2>
+                Waste by Food
+            </h2>
+
+            <div class="chart-container">
+
+                <canvas
+                    id="foodChart"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-card">
+
+            <h2>
+                Waste Trend
+            </h2>
+
+            <div class="chart-container">
+
+                <canvas
+                    id="trendChart"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK INSIGHT -->
+
+    <div class="insight-card">
+
+        <div class="insight-title">
+            🤖 AI/ML Insight
+        </div>
+
+        <h3 id="insightLevel">
+            Select a city
+        </h3>
+
+        <p id="insightText">
+            Select a city to generate insights.
+        </p>
+
+        <div
+            id="recommendation"
+            class="recommendation"
+        >
+            Recommendation will appear here.
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     FOOD WASTE ANALYSIS
+===================================================== -->
+
+<section
+    id="analysis"
+    class="section"
+>
+
+
+    <div class="page-title">
+
+        <h1>
+            Food Waste Analysis
+        </h1>
+
+        <p>
+            Detailed food-level analysis and
+            waste reduction actions.
+        </p>
+
+    </div>
+
+
+    <div class="section-selector">
+
+        <label>
+            Analyze City
+        </label>
+
+        <select
+            id="analysisCity"
+            onchange="loadFoodAnalysis()"
+        >
+
+            <option value="">
+                Select City
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="analysis-summary-grid">
+
+
+        <div class="analysis-card">
+
+            <span>
+                Highest Waste Food
+            </span>
+
+            <h2 id="analysisHighestFood">
+                -
+            </h2>
+
+        </div>
+
+
+        <div class="analysis-card">
+
+            <span>
+                Food Waste
+            </span>
+
+            <h2 id="analysisHighestWaste">
+                0 kg
+            </h2>
+
+        </div>
+
+
+        <div class="analysis-card">
+
+            <span>
+                Waste Percentage
+            </span>
+
+            <h2 id="analysisWastePercentage">
+                0%
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-card">
+
+        <h2>
+            Food-wise Waste Breakdown
+        </h2>
+
+        <div
+            id="foodTable"
+            class="table-wrapper"
+        >
+            Select a city.
+        </div>
+
+    </div>
+
+
+    <div class="action-card">
+
+        <h2>
+            ♻️ How to Reduce Food Waste
+        </h2>
+
+        <div
+            id="foodRecommendations"
+            class="recommendation-list"
+        >
+            Select a city to generate recommendations.
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     TRENDS
+===================================================== -->
+
+<section
+    id="trends"
+    class="section"
+>
+
+
+    <div class="page-title">
+
+        <h1>
+            Trends & Insights
+        </h1>
+
+        <p>
+            Discover waste patterns, unusual events
+            and reduction opportunities.
+        </p>
+
+    </div>
+
+
+    <div class="section-selector">
+
+        <label>
+            Select City
+        </label>
+
+        <select
+            id="trendCity"
+            onchange="loadTrendPage()"
+        >
+
+            <option value="">
+                Select City
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="trend-stats">
+
+
+        <div class="trend-stat">
+
+            <span>
+                Average Daily Waste
+            </span>
+
+            <strong id="averageWaste">
+                0 kg
+            </strong>
+
+        </div>
+
+
+        <div class="trend-stat">
+
+            <span>
+                Highest Waste Day
+            </span>
+
+            <strong id="highestWasteDay">
+                -
+            </strong>
+
+        </div>
+
+
+        <div class="trend-stat">
+
+            <span>
+                Anomalies
+            </span>
+
+            <strong id="trendAnomalies">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="large-chart-card">
+
+        <h2>
+            Waste Trend Analysis
+        </h2>
+
+        <div class="large-chart-container">
+
+            <canvas
+                id="trendPageChart"
+            ></canvas>
+
+        </div>
+
+    </div>
+
+
+    <div class="action-card">
+
+        <h2>
+            💡 Waste Reduction Strategies
+        </h2>
+
+        <div
+            id="trendRecommendations"
+            class="recommendation-list"
+        >
+            Select a city.
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     PREDICTIONS
+===================================================== -->
+
+<section
+    id="predictions"
+    class="section"
+>
+
+
+    <div class="page-title">
+
+        <h1>
+            ML Predictions
+        </h1>
+
+        <p>
+            Random Forest based food waste prediction.
+        </p>
+
+    </div>
+
+
+    <div class="model-card">
+
+        <div>
+
+            <span>
+                MODEL
+            </span>
+
+            <h2>
+                Random Forest Regressor
+            </h2>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                R² SCORE
+            </span>
+
+            <h2 id="modelR2">
+                -
+            </h2>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                MAE
+            </span>
+
+            <h2 id="modelMAE">
+                -
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="prediction-form">
+
+        <h2>
+            Predict Expected Waste
+        </h2>
+
+
+        <div class="form-grid">
+
+
+            <div>
+
+                <label>
+                    City
+                </label>
+
+                <select
+                    id="predictCity"
+                ></select>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Hotel
+                </label>
+
+                <input
+                    id="predictHotel"
+                    placeholder="Hotel A"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Food
+                </label>
+
+                <input
+                    id="predictFood"
+                    placeholder="Biryani"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Meal
+                </label>
+
+                <select
+                    id="predictMeal"
+                >
+
+                    <option>
+                        Breakfast
+                    </option>
+
+                    <option>
+                        Lunch
+                    </option>
+
+                    <option>
+                        Dinner
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Area
+                </label>
+
+                <select
+                    id="predictArea"
+                >
+
+                    <option>
+                        Dining Hall
+                    </option>
+
+                    <option>
+                        Kitchen
+                    </option>
+
+                    <option>
+                        Serving Area
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Number of People
+                </label>
+
+                <input
+                    id="predictPeople"
+                    type="number"
+                    value="100"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Prepared Food (kg)
+                </label>
+
+                <input
+                    id="predictPrepared"
+                    type="number"
+                    step="0.01"
+                    value="80"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="makePrediction()"
+        >
+            Predict Waste
+        </button>
+
+
+        <div
+            id="predictionResult"
+            class="prediction-result"
+        >
+            Enter values and predict expected waste.
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     REPORTS
+===================================================== -->
+
+<section
+    id="reports"
+    class="section"
+>
+
+
+    <div class="page-title">
+
+        <h1>
+            Reports
+        </h1>
+
+        <p>
+            Dataset health, city comparison and
+            system summary.
+        </p>
+
+    </div>
+
+
+    <div class="report-grid">
+
+
+        <div class="report-card">
+
+            <span>
+                Dataset Quality
+            </span>
+
+            <h2 id="reportQuality">
+                0%
+            </h2>
+
+            <p>
+                Data completeness and duplicates
+            </p>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <span>
+                Total Records
+            </span>
+
+            <h2 id="reportRecords">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <span>
+                Cities
+            </span>
+
+            <h2 id="reportCities">
+                0
+            </h2>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <span>
+                Food Items
+            </span>
+
+            <h2 id="reportFoods">
+                0
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-card">
+
+        <h2>
+            City Comparison
+        </h2>
+
+        <div
+            id="reportCityTable"
+            class="table-wrapper"
+        >
+            Loading...
+        </div>
+
+    </div>
+
+
+    <div class="report-summary">
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     DAILY RECORD
+===================================================== -->
+
+<section
+    id="daily"
+    class="section"
+>
+
+
+    <div class="page-title">
+
+        <h1>
+            📝 Daily Food Waste Record
+        </h1>
+
+        <p>
+            Record today's preparation, consumption
+            and automatically calculate food waste.
+        </p>
+
+    </div>
+
+
+    <!-- TODAY SUMMARY -->
+
+    <div class="today-summary-grid">
+
+
+        <div class="today-card">
+
+            <span>
+                Today's Date
+            </span>
+
+            <h2 id="todayDate">
+                -
+            </h2>
+
+            <p id="todayDay">
+                -
+            </p>
+
+        </div>
+
+
+        <div class="today-card">
+
+            <span>
+                Prepared Today
+            </span>
+
+            <h2 id="todayPrepared">
+                0 kg
+            </h2>
+
+        </div>
+
+
+        <div class="today-card">
+
+            <span>
+                Consumed Today
+            </span>
+
+            <h2 id="todayConsumed">
+                0 kg
+            </h2>
+
+        </div>
+
+
+        <div class="today-card">
+
+            <span>
+                Waste Today
+            </span>
+
+            <h2 id="todayWaste">
+                0 kg
+            </h2>
+
+        </div>
+
+
+        <div class="today-card">
+
+            <span>
+                Financial Loss
+            </span>
+
+            <h2 id="todayLoss">
+                ₹0
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECORD FORM -->
+
+    <div class="daily-form-card">
+
+        <h2>
+            Record Food Preparation & Consumption
+        </h2>
+
+
+        <div class="form-grid">
+
+
+            <div>
+
+                <label>
+                    Date
+                </label>
+
+                <input
+                    type="date"
+                    id="recordDate"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Day
+                </label>
+
+                <input
+                    type="text"
+                    id="recordDay"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    City
+                </label>
+
+                <select
+                    id="recordCity"
+                ></select>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Food Item
+                </label>
+
+                <select
+                    id="recordFood"
+                ></select>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Prepared Quantity (kg)
+                </label>
+
+                <input
+                    type="number"
+                    id="recordPrepared"
+                    min="0"
+                    step="0.01"
+                    placeholder="100"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Consumed Quantity (kg)
+                </label>
+
+                <input
+                    type="number"
+                    id="recordConsumed"
+                    min="0"
+                    step="0.01"
+                    placeholder="80"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Number of People
+                </label>
+
+                <input
+                    type="number"
+                    id="recordPeople"
+                    min="0"
+                    placeholder="150"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Unit Price (₹/kg)
+                </label>
+
+                <input
+                    type="number"
+                    id="recordPrice"
+                    min="0"
+                    step="0.01"
+                    placeholder="80"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Notes
+            </label>
+
+            <textarea
+                id="recordNotes"
+                placeholder="Example: Extra preparation due to expected demand..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- LIVE CALCULATION -->
+
+        <div class="live-calculation">
+
+            <div>
+
+                <span>
+                    Waste
+                </span>
+
+                <strong id="liveWaste">
+                    0 kg
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Waste %
+                </span>
+
+                <strong id="liveWastePercentage">
+                    0%
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Calculated Loss
+                </span>
+
+                <strong id="liveLoss">
+                    ₹0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            onclick="saveDailyRecord()"
+        >
+            Save Today's Record
+        </button>
+
+
+        <p
+            id="dailyStatus"
+            class="upload-status"
+        ></p>
+
+    </div>
+
+
+    <!-- HISTORY -->
+
+    <div class="table-card">
+
+        <h2>
+            Recorded Food Waste History
+        </h2>
+
+        <div
+            id="dailyHistory"
+            class="table-wrapper"
+        >
+            No records available.
+        </div>
+
+    </div>
+
+
+</section>
+
+
+</div>
+
+
+<script
+    src="script.js"
+></script>
+
+</body>
+
+</html>

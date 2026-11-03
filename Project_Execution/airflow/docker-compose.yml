@@ -1,0 +1,27 @@
+services:
+
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: food_waste_airflow
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
+      MINIO_ENDPOINT: "minio:9000"
+
+    volumes:
+      - .:/opt/airflow/dags
+      - ..:/opt/food_waste_project
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    command: standalone
+
+    restart: unless-stopped

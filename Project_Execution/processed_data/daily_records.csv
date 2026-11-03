@@ -1,0 +1,3 @@
+Date,Day,City,Food,Prepared_kg,Consumed_kg,Waste_kg,Waste_Percentage,Number_of_People,Unit_Price,Cost_Loss,Notes
+2026-09-17,Thursday,Hyderabad,Bhakri,100.0,60.0,40.0,40.0,150,80.0,3200.0,hii
+2026-10-30,Friday,Hyderabad,Biryani,300.0,250.0,50.0,16.67,200,40.0,2000.0,
